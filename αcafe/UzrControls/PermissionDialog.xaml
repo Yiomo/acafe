@@ -1,0 +1,189 @@
+﻿<ContentDialog
+    x:Class="αcafe.UzrControls.PermissionDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:αcafe.UzrControls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    PrimaryButtonText="接受"
+    SecondaryButtonText="拒绝"
+    FullSizeDesired="True"
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
+    SecondaryButtonClick="ContentDialog_SecondaryButtonClick">
+
+    <Grid>
+        <ScrollViewer>
+            <StackPanel Orientation="Vertical">
+                <RichTextBlock>
+                    <Paragraph>
+                        <Run FontWeight="Bold" FontSize="20">索尼</Run >
+                        <InlineUIContainer>
+                            <Image Source="ms-appx:///Assets/wslogo.png" Height="16" Stretch="Uniform"/>
+                        </InlineUIContainer >
+                        <Run FontWeight="Bold" FontSize="20">-用户协议</Run >
+                    </Paragraph >
+                </RichTextBlock >
+                <Rectangle Height=" 1" Fill="Gray" Margin="0,5,0,0" />
+                <RichTextBlock Margin="0,10,0,0">
+                    <Paragraph>本索尼
+                        <InlineUIContainer>
+                            <Image Source="ms-appx:///Assets/wslogo.png" Height="12" Stretch="Uniform"/>
+                        </InlineUIContainer > 协议（简称“本协议”）是索尼（中国）有限公司（简称“索尼”）与索尼
+                        <InlineUIContainer>
+                            <Image Source="ms-appx:///Assets/wslogo.png" Height="12" Stretch="Uniform"/>
+                        </InlineUIContainer > 用户（定义如下，简称“用户”或“您”）之间的协议。请您在访问索尼
+                        <InlineUIContainer>
+                            <Image Source="ms-appx:///Assets/wslogo.png" Height="12" Stretch="Uniform"/>
+                        </InlineUIContainer > 之前仔细阅读本协议，本协议条款中包含您作为索尼
+                        <InlineUIContainer>
+                            <Image Source="ms-appx:///Assets/wslogo.png" Height="12" Stretch="Uniform"/>
+                        </InlineUIContainer > 用户所享有的权利和义务等重要内容。
+                        <Run FontWeight="Bold">请注意访问和/或使用索尼</Run >
+                        <InlineUIContainer>
+                            <Image Source="ms-appx:///Assets/wslogo.png" Height="12" Stretch="Uniform"/>
+                        </InlineUIContainer >
+                        <Run FontWeight="Bold">（如上传作品等）即表示您接受本协议</Run >
+                    </Paragraph >
+                </RichTextBlock >
+                <RichTextBlock Margin=" 0,10,0,0">
+                    <Paragraph>
+                        <Run FontWeight="Bold">一、定义</Run >
+                    </Paragraph >
+                    <Paragraph>
+                        1. “索尼
+                        <InlineUIContainer>
+                            <Image Source="ms-appx:///Assets/wslogo.png" Height="12" Stretch="Uniform"/>
+                        </InlineUIContainer > ”（简称"
+                        <InlineUIContainer>
+                            <Image Source="ms-appx:///Assets/wslogo.png" Height="12" Stretch="Uniform"/>
+                        </InlineUIContainer > "），指索尼运营管理的、关于索尼数码影像拍摄作品展示的空间，旨在鼓励索尼会员使用索尼数码影像产品，不断提升自己的拍摄技巧，记录下精彩的生活瞬间，和大家分享自己的生活态度、心情感悟，体验拍摄带来的惊喜与感动。
+                    </Paragraph >
+                    <Paragraph/>
+                    <Paragraph>
+                        2. “用户”或“您”，指任何访问或使用
+                        <InlineUIContainer>
+                            <Image Source="ms-appx:///Assets/wslogo.png" Height="12" Stretch="Uniform"/>
+                        </InlineUIContainer > 的人，包括但不限于在
+                        <InlineUIContainer>
+                            <Image Source="ms-appx:///Assets/wslogo.png" Height="12" Stretch="Uniform"/>
+                        </InlineUIContainer > 上传作品的用户，以及浏览作品和/或发表评论的用户，无论是否为索尼会员。
+                    </Paragraph >
+                </RichTextBlock >
+                <RichTextBlock Margin=" 0,10,0,0">
+                    <Paragraph>
+                        <Run FontWeight="Bold" >二、</Run >
+                        <InlineUIContainer>
+                            <Image Source="ms-appx:///Assets/wslogo.png" Height="12" Stretch="Uniform"/>
+                        </InlineUIContainer >
+                        <Run FontWeight="Bold" >使用规则：</Run >
+                    </Paragraph >
+                    <Paragraph >1. 所有通过www.sony.com.cn/store网站（简称"索尼在线商城网站"）注册成为My Sony会员或电邮会员（简称"索尼会员"）均有资格上传作品，索尼会员通过索尼在线商城网站系统（简称"系统"）指定的上传页面上传其作品。
+                    </Paragraph >
+                    <Paragraph/>
+                    <Paragraph>2.
+                        <InlineUIContainer>
+                            <Image Source="ms-appx:///Assets/wslogo.png" Height="12" Stretch="Uniform"/>
+                        </InlineUIContainer >
+                        <Run FontWeight="Bold" >仅限上传使用索尼数码相机、索尼数码单反/单电相机、索尼微单数码相机，索尼数码摄像机所拍摄的照片或视频（简称“作品”），使用其它品牌的数码产品或其它类别的索尼产品拍摄的照片或视频不能上传。
+                        </Run >
+                    </Paragraph >
+                    <Paragraph/>
+                    <Paragraph>3. 为确保作品成功上传与保存，上传照片需为
+                        <Run FontWeight="Bold" >JPG格式
+                        </Run > , 照片大小的
+                        <Run FontWeight="Bold" >下限
+                        </Run > 是
+                        <Run FontWeight="Bold" >1M
+                        </Run > 。上传视频需为
+                        <Run FontWeight="Bold" >MP4格式
+                        </Run > ，视频的
+                        <Run FontWeight="Bold" >上限
+                        </Run > 是
+                        <Run FontWeight="Bold" >300M
+                        </Run > 。
+                    </Paragraph >
+                    <Paragraph/>
+                    <Paragraph >4. 系统会自动识别作品拍摄所使用的器材及拍摄的EXIF技术参数，包括但不限于作品拍摄所使用的主机、镜头、光圈、快门、ISO等参数（简称"技术参数"），主机型号是必填字段，如有系统无法自动识别的参数，系统将留空。为使作品更容易被搜索到，建议用户多添加标签，并且尽量准确。
+                    </Paragraph >
+                    <Paragraph/>
+                    <Paragraph >5.
+                        <Run FontWeight="Bold" >作品上传后需通过审核才准予在网站作品列表展示</Run >
+                        作品上传后将暂时保存在索尼在线商城网站后台。
+                    </Paragraph >
+                    <Paragraph/>
+                    <Paragraph >6. 用户可以适当使用画图软件对作品的尺寸、对比、明暗、色彩进行修饰性的调整，但必须保留作品的原始技术参数数据。会员对作品不得进行过度的编辑、合成等图像处理。
+                        <Run FontWeight="Bold" >索尼中国拥有判定作品是否经过过度的编辑、合成等图像处理的权利。
+                        </Run >
+                    </Paragraph >
+                    <Paragraph/>
+                    <Paragraph>7. 用户所提交的作品应为本人原创，并取得相关权利人（包括但不限于拍摄对象权利人、模特等）的事先许可。用户保证其对于作品享有充分的著作权，并且不违反任何法律法规且不侵害任何第三方的知识产权、民事权利或其他合法权利。用户保证其有权许可索尼中国和/或其关联公司使用该作品。
+                        <Run FontWeight="Bold" >如用户提交的作品侵犯任何第三方知识产权、民事权利或其他合法权利，用户承担全部责任并赔偿因此给索尼中国和/或关联公司造成的损失（包括但不限于赔偿金、诉讼费、律师费及其它合理费用）。用户进一步同意对因其提交的作品直接或间接产生的针对索尼中国和/或关联公司的威胁、指控、政府调查、诉由、索赔、要求、诉讼、程序、费用、支出、损失、损害赔偿和责任予以赔偿（包括但不限于赔偿金、诉讼费、律师费及其它合理费用）。
+                        </Run >
+                    </Paragraph >
+                    <Paragraph/>
+                    <Paragraph >8. 用户不得上传或发表任何骚扰性的、中伤他人的、辱骂性的、恐吓性的、庸俗淫秽的或其他任何非法的、可能产生不良后果的作品和/或评论。用户不得发布任何包含政治、种族、性别、宗教歧视性和猥亵性的信息内容。
+                        <Run FontWeight="Bold" >索尼中国有对作品和/或评论的内容进行最终审核和确认的权利，有权不予上传或删除其认为不合适的作品和/或评论。同时索尼中国对作品和/或评论内容的审核及确认不代表索尼中国方对作品内容承担责任。
+                        </Run >
+                    </Paragraph >
+                    <Paragraph/>
+                    <Paragraph >9. 用户不得利用
+                        <InlineUIContainer>
+                            <Image Source="ms-appx:///Assets/wslogo.png" Height="12" Stretch="Uniform"/>
+                        </InlineUIContainer > 散布广告以及其他商业化的宣传。
+                    </Paragraph >
+                </RichTextBlock >
+                <RichTextBlock Margin=" 0,10,0,0">
+                    <Paragraph>
+                        <Run FontWeight="Bold" >三、知识产权
+                        </Run >
+                    </Paragraph >
+                    <Paragraph >1. 用户以任何形式上传、发布于
+                        <InlineUIContainer >
+                            <Image Source="ms-appx:///Assets/wslogo.png" Height=" 12" Stretch="Uniform" />
+                        </InlineUIContainer > 的信息内容，为用户个人行为，如果第三方对该内容提出包括版权在内的异议，索尼中国有权应确实的权利人请求，将该内容删除。
+                    </Paragraph >
+                    <Paragraph />
+                    <Paragraph >2.
+                        <Run FontWeight="Bold" >除非索尼中国收到相应书面通知，索尼中国将视上传作品的用户为其在
+                        </Run >
+                        <InlineUIContainer >
+                            <Image Source="ms-appx:///Assets/wslogo.png" Height=" 12" Stretch="Uniform" />
+                        </InlineUIContainer >
+                        <Run FontWeight="Bold" >上传作品的版权所有人。
+                        </Run >
+                    </Paragraph >
+                    <Paragraph/>
+                    <Paragraph >3.
+                        <Run FontWeight="Bold" >用户不可撤销地同意并授予索尼中国和/或其关联公司在全世界范围内具有免费的、永久性的、不可撤销的、非排他的权利和许可，为商业及非商业目的，通过网络或其他媒体或以其他形式对上传作品（整体或部分）向公众传播、复制、摘编、表演、播放、展览、发行、摄制电影、电视、录像制品、录制录音制品、制作数字化制品、改编、翻译、注释、编辑、出版，包括但不限于将作品的整体或部分用于与
+                        </Run >
+                        <InlineUIContainer >
+                            <Image Source="ms-appx:///Assets/wslogo.png" Height=" 12" Stretch="Uniform" />
+                        </InlineUIContainer >
+                        <Run FontWeight="Bold" >相关的报道及展示，以及索尼中国的任何商业及广告宣传活动，并许可其他媒体、网站、单位及个人转载、摘编、播放、录制、翻译、注释、编辑、改编、摄制，以及将上述权利进行分许可的权利。索尼中国在作上述使用时可以标明或不标明用户的姓名和身份。用户同时同意对索尼中国的上述使用不收取任何费用。
+                        </Run >
+                    </Paragraph >
+                    <Paragraph/>
+                    <Paragraph>4.
+                        <Run FontWeight="Bold" >未经索尼或有关权利人事先同意，非作品版权所有人的用户不得复制、分发、传播、修改、编辑，或在任何媒体直接或间接发布、播放该些作品，或者将该些作品用于任何商业目的。
+                        </Run >
+                    </Paragraph >
+                </RichTextBlock >
+                <RichTextBlock Margin=" 0,10,0,0">
+                    <Paragraph >
+                        <Run FontWeight="Bold" >四、其他
+                        </Run >
+                    </Paragraph >
+                    <Paragraph >用户在访问和使用
+                        <InlineUIContainer >
+                            <Image Source="ms-appx:///Assets/wslogo.png" Height=" 12" Stretch="Uniform" />
+                        </InlineUIContainer > 的同时，需要遵守索尼在线商城网站公布的其他相关规则，包括但不限于《索尼网站使用条款》。
+                    </Paragraph >
+                    <Paragraph/>
+                    <Paragraph TextAlignment="Right">索尼（中国）有限公司
+                    </Paragraph >
+                </RichTextBlock >
+            </StackPanel >
+        </ScrollViewer >
+    </Grid>
+</ContentDialog>

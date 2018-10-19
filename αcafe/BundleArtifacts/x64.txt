@@ -1,0 +1,3 @@
+MainPackage=C:\Users\snowy\Documents\Visual Studio 2017\Projects\αcafe\αcafe\bin\x64\Release\αcafe_1.0.0.0_x64.appx
+SymbolPackage=C:\Users\snowy\Documents\Visual Studio 2017\Projects\αcafe\αcafe\AppPackages\αcafe_1.0.0.0_Test\αcafe_1.0.0.0_x64.appxsym
+ResourcePack=C:\Users\snowy\Documents\Visual Studio 2017\Projects\αcafe\αcafe\bin\x64\Release\αcafe_1.0.0.0_language-zh-hans.appx

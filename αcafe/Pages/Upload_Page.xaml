@@ -1,0 +1,229 @@
+﻿<Page
+    x:Class="αcafe.Pages.Upload_Page"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:αcafe.Pages"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <Page.Resources>
+        <Style x:Key="EclipseBtn" TargetType="Button">
+            <Setter Property="Background" Value="{ThemeResource ButtonBackground}"/>
+            <Setter Property="Foreground" Value="{ThemeResource ButtonForeground}"/>
+            <Setter Property="BorderBrush" Value="{ThemeResource ButtonBorderBrush}"/>
+            <Setter Property="BorderThickness" Value="{ThemeResource ButtonBorderThemeThickness}"/>
+            <Setter Property="Padding" Value="8,4,8,4"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
+            <Setter Property="FontWeight" Value="Normal"/>
+            <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}"/>
+            <Setter Property="UseSystemFocusVisuals" Value="True"/>
+            <!--<Setter Property="FocusVisualMargin" Value="-3"/>-->
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid x:Name="RootGrid" Background="Transparent">
+                            <Ellipse Width="{TemplateBinding Width}"
+                                     Height="{TemplateBinding Height}"
+                                     Fill="{TemplateBinding Background}"></Ellipse>
+                            <ContentPresenter x:Name="ContentPresenter" 
+                                              AutomationProperties.AccessibilityView="Raw" 
+                                              BorderBrush="{TemplateBinding BorderBrush}" 
+                                              BorderThickness="{TemplateBinding BorderThickness}" 
+                                              ContentTemplate="{TemplateBinding ContentTemplate}" 
+                                              ContentTransitions="{TemplateBinding ContentTransitions}"
+                                              Content="{TemplateBinding Content}" 
+                                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                              Padding="{TemplateBinding Padding}" 
+                                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Storyboard x:Name="expand" Storyboard.TargetName="border" Storyboard.TargetProperty="Height">
+            <DoubleAnimation From="156"
+                             To=" 260"
+                             Duration="0:0:0.3"
+                             EnableDependentAnimation="True">
+                <DoubleAnimation.EasingFunction>
+                    <PowerEase EasingMode="EaseOut"></PowerEase>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation >
+        </Storyboard >
+        <Storyboard x:Name="close" Storyboard.TargetName="border" Storyboard.TargetProperty="Height">
+            <DoubleAnimation From="260"
+                             To=" 156"
+                             Duration="0:0:0.3"
+                             EnableDependentAnimation="True">
+                <DoubleAnimation.EasingFunction>
+                    <PowerEase EasingMode="EaseOut"></PowerEase>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation >
+        </Storyboard >
+    </Page.Resources >
+
+    <Grid Background="#33AEAEAE">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="8*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <ListView x:Name="SelectedFilesListview" 
+                  SelectionMode="None"
+                  Margin="30" 
+                  Grid.Column="1">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <RelativePanel x:Name="relativepanel"
+                                   Background="Gray" Margin="0,5,0,5"
+                                   Width="{Binding ElementName=SelectedFilesListview,Path=ActualWidth,Mode=TwoWay}">
+                        <Image  x:Name="ThumbImage"
+                                   Height="120"
+                                   Width="160"
+                                   Stretch="Uniform"
+                                   Margin="10,5,5,5"
+                                   Source="{Binding Content}"/>
+                        <StackPanel x:Name="sp1"
+                                Orientation="Vertical" 
+                                RelativePanel.RightOf="ThumbImage"
+                                Margin="16,0,0,0">
+                            <StackPanel Orientation="Horizontal">
+                                <SymbolIcon Symbol="Edit" Foreground="GhostWhite"/>
+                                <TextBox BorderThickness="0,0,0,1" 
+                                             BorderBrush="WhiteSmoke" 
+                                             Background="Transparent" 
+                                             Text="{Binding Name}"
+                                             Foreground="WhiteSmoke" 
+                                             Margin="8"/>
+                            </StackPanel >
+                            <StackPanel Orientation="Horizontal">
+                                <SymbolIcon Symbol="Calendar"  Foreground="GhostWhite"/>
+                                <TextBlock Text="{Binding DateCreated}" Foreground="WhiteSmoke" Margin="8"/>
+                            </StackPanel >
+                            <StackPanel Orientation="Horizontal">
+                                <SymbolIcon Symbol="Document"  Foreground="GhostWhite" />
+                                <TextBlock Text="{Binding DataSize}" Foreground="WhiteSmoke" Margin="8"/>
+                            </StackPanel >
+                        </StackPanel >
+                        <StackPanel x:Name="sp2" 
+                                        Orientation="Vertical"
+                                        RelativePanel.RightOf="sp1"
+                                        Margin="20,0,0,0">
+                            <StackPanel Orientation="Horizontal">
+                                <SymbolIcon Symbol="Camera"  Foreground="GhostWhite"/>
+                                <AutoSuggestBox PlaceholderText="相机型号" 
+                                                    Foreground="WhiteSmoke"
+                                                    Margin="8" Width=" 200"
+                                                    ItemsSource="{Binding Cameras}"
+                                                    TextChanged="AutoSuggestBoxC_TextChanged"/>
+                            </StackPanel >
+                            <StackPanel Orientation="Horizontal">
+                                <SymbolIcon Symbol="View"  Foreground="GhostWhite"/>
+                                <AutoSuggestBox PlaceholderText="镜头型号"
+                                                    Foreground="WhiteSmoke" 
+                                                    Margin="8" Width=" 200"
+                                                    ItemsSource="{Binding Lens}"
+                                                    TextChanged="AutoSuggestBoxL_TextChanged"/>
+                            </StackPanel >
+                            <StackPanel Orientation="Horizontal">
+                                <SymbolIcon Symbol="Tag"  Foreground="GhostWhite"/>
+                                <ComboBox Foreground="WhiteSmoke" Margin="8" PlaceholderText="选择主题">
+                                    <ComboBoxItem Content="风光"/>
+                                    <ComboBoxItem Content="纪实"/>
+                                    <ComboBoxItem Content="人像"/>
+                                    <ComboBoxItem Content="建筑"/>
+                                    <ComboBoxItem Content="微距"/>
+                                    <ComboBoxItem Content="动物(自然)"/>
+                                    <ComboBoxItem Content="静物(美食)"/>
+                                    <ComboBoxItem Content="弱光(夜景)"/>
+                                    <ComboBoxItem Content="体育(交通工具)"/>
+                                </ComboBox >
+                            </StackPanel >
+                        </StackPanel >
+                        <Grid Height="40" Width="40" 
+                                  RelativePanel.AlignVerticalCenterWithPanel="True"
+                                  RelativePanel.AlignRightWithPanel="True"
+                                  Margin=" 0,0,50,0">
+                            <ProgressRing x:Name="Pr" Height="40" Width=" 40" Foreground="WhiteSmoke" IsActive="False" />
+                            <controls:DropShadowPanel x:Name="dropshadow" BlurRadius="24" OffsetY="2" Opacity="0">
+                                <Border Width="40" Height="40" CornerRadius="20" Background="MediumSeaGreen">
+                                    <SymbolIcon Symbol="Accept" Foreground="WhiteSmoke" />
+                                </Border>
+                            </controls:DropShadowPanel >
+                            <controls:DropShadowPanel x:Name="dropshadow1" BlurRadius="24" OffsetY="2" Opacity="1">
+                                <Button Click="DeleteFile_Click" 
+                                            Style="{StaticResource EclipseBtn}" 
+                                            Background="Orange" Height=" 40" Width=" 40" 
+                                            BorderThickness="0">
+                                    <SymbolIcon Symbol="Delete" Foreground="WhiteSmoke" />
+                                </Button >
+                            </controls:DropShadowPanel >
+                        </Grid >
+                    </RelativePanel>
+                </DataTemplate >
+            </ListView.ItemTemplate >
+        </ListView >
+        <Border x:Name="border" Background="#99549197"
+                 Width="52" Height="156" Margin=" 0,0,20,0"
+                Grid.Column="3" HorizontalAlignment="Right" 
+                CornerRadius="24">
+            <StackPanel Orientation="Vertical">
+                <Button x:Name="AddBtn" Height=" 48" Width=" 48" Margin="2"
+                        Style="{StaticResource EclipseBtn}" 
+                        HorizontalAlignment="Center"
+                        Click="SelectFiles_Click">
+                    <SymbolIcon Symbol="Add" Foreground="WhiteSmoke" />
+                </Button >
+                <Button x:Name="SubmitBtn" Height=" 48" Width=" 48" Margin="2"
+                        Style="{StaticResource EclipseBtn}" 
+                        HorizontalAlignment="Center"
+                        Click="animations_Click">
+                    <SymbolIcon Symbol="Send" Foreground="WhiteSmoke" />
+                </Button >
+                <Button x:Name="ModBtn" Height=" 48" Width=" 48" Margin="2"
+                        Style="{StaticResource EclipseBtn}" 
+                        HorizontalAlignment="Center"
+                        Visibility="Collapsed"
+                        Click="SelectFiles_Click">
+                    <SymbolIcon Symbol="Edit" Foreground="WhiteSmoke" />
+                </Button >
+                <Button x:Name="DelAllBtn" Height=" 48" Width=" 48" Margin="2"
+                        Style="{StaticResource EclipseBtn}" 
+                        HorizontalAlignment="Center"
+                        Visibility="Collapsed"
+                        Click="DelAllBtn_Click">
+                    <SymbolIcon Symbol="Delete" Foreground="WhiteSmoke" />
+                </Button >
+                <Button x:Name="MoreBtn" Height=" 48" Width="48" Margin="2"
+                        Style="{StaticResource EclipseBtn}" 
+                        HorizontalAlignment="Center"
+                        Tag="closed"
+                        Click="MoreBtn_Click">
+                    <SymbolIcon Symbol="More" Foreground="WhiteSmoke" />
+                </Button >
+                <Button x:Name="mod" 
+                        Height=" 48" Width="48" 
+                        Style="{StaticResource EclipseBtn}" 
+                        VerticalAlignment="Bottom" HorizontalAlignment="Center">
+                    <SymbolIcon x:Name="TagSymbol" Symbol="More"  Foreground="WhiteSmoke" />
+                </Button >
+            </StackPanel >
+        </Border >
+        <controls:Loading x:Name="LoadingControl" HorizontalContentAlignment="Center" 
+                          VerticalContentAlignment="Center"
+                          Background="Black" Opacity="0.7" Grid.Column="0" Grid.ColumnSpan="3">
+            <ContentControl x:Name="LoadingContentControl" >
+                <StackPanel Orientation="Horizontal" Padding="12">
+                    <ProgressRing IsActive="True" Margin="0,0,12,0" Foreground="AliceBlue" />
+                    <TextBlock x:Name="TipsTb" Text="Loading.Please wait." VerticalAlignment="Center" Foreground="White"/>
+                </StackPanel>
+            </ContentControl >
+        </controls:Loading>
+    </Grid>
+</Page>

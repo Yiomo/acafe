@@ -1,0 +1,51 @@
+﻿<Page
+    x:Class="αcafe.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:αcafe"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="CustomResourceDictionary"/>
+            </ResourceDictionary.MergedDictionaries >
+        </ResourceDictionary >
+    </Page.Resources >
+
+    <Grid x:Name="grid" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Image x:Name="backgroundImage" Source="Assets/Sastest.jpg" Stretch="UniformToFill"/>
+        <Border>
+            <Border.Background>
+                <AcrylicBrush TintColor="Black"
+                              BackgroundSource="Backdrop"
+                               TintOpacity="0.2"/>
+            </Border.Background >
+        </Border >
+        <NavigationView x:Name="NaviView" 
+                        Foreground="WhiteSmoke" 
+                        IsSettingsVisible="True"  
+                        IsPaneOpen="False"
+                        Margin=" 0,0,0,0"
+                        SelectionChanged="NaviView_SelectionChanged">
+            <NavigationView.MenuItems>
+                <NavigationViewItem Icon="Home" Content="首页" Tag="Index" Loading="NavigationViewItem_Loading"/>
+                <NavigationViewItem Icon="BrowsePhotos" Content="影像库" Tag="Filter" />
+                <NavigationViewItem Icon="Contact" Content="用户" Tag="Login" />
+                <NavigationViewItem Icon="Camera" Content="上传" Tag="Upload" />
+                <NavigationViewItem Icon="Emoji" Content="test" Tag="Class" />
+            </NavigationView.MenuItems >
+            <Grid Margin=" 0,-48,0,0">
+                <Frame x:Name="RootFrame">
+                    <Frame.ContentTransitions>
+                        <TransitionCollection>
+                            <NavigationThemeTransition/>
+                        </TransitionCollection>
+                    </Frame.ContentTransitions>
+                </Frame >
+            </Grid >
+        </NavigationView >
+    </Grid>
+</Page>

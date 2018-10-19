@@ -1,0 +1,98 @@
+﻿<Page
+    x:Class="αcafe.Pages.Filter_Page"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:αcafe.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    NavigationCacheMode="Enabled">
+
+    <Grid x:Name="grid" Background="Transparent">
+        <CommandBar VerticalAlignment="Bottom" ClosedDisplayMode="Compact">
+            <CommandBar.Background>
+                <AcrylicBrush TintColor="WhiteSmoke"
+                              FallbackColor="Black" 
+                              Opacity="0.6"/>
+            </CommandBar.Background>
+            <CommandBar.Content>
+                <StackPanel Orientation="Vertical" Margin="10,5,0,0">
+                    <TextBlock x:Name="camera_selected" />
+                    <TextBlock x:Name="lens_selected"/>
+                    <TextBlock x:Name="abk" Text="0" Visibility="Visible"/>
+                </StackPanel>
+            </CommandBar.Content>
+            <AppBarButton x:Name="FilterBtn" Icon="Filter" Label="筛选" IsEnabled="False" Click="FilterBtn_Click"/>
+            <AppBarSeparator/>
+            <AppBarButton Icon="Camera" Label="主机">
+                <AppBarButton.Flyout>
+                    <MenuFlyout >
+                        <MenuFlyoutItem Text="微单™数码相机" Tag="camera" Click="MenuFlyoutItem_Click"/>
+                        <MenuFlyoutItem Text="数码单反/单电相机" Tag="camera" Click="MenuFlyoutItem_Click"/>
+                        <MenuFlyoutItem Text="数码相机" Tag="camera" Click="MenuFlyoutItem_Click"/>
+                        <MenuFlyoutSeparator/>
+                        <MenuFlyoutItem Text="取消选择" Tag="camera" Click="Reset_Click"/>
+                    </MenuFlyout>
+                </AppBarButton.Flyout>
+            </AppBarButton>
+            <AppBarButton Icon="View" Label="镜头">
+                <AppBarButton.Flyout>
+                    <MenuFlyout >
+                        <MenuFlyoutSubItem Text="定焦镜头">
+                            <MenuFlyoutItem Text="广角镜头" Tag="定焦镜头" Click="MenuFlyoutItem_Click"/>
+                            <MenuFlyoutItem Text="标准镜头" Tag="定焦镜头" Click="MenuFlyoutItem_Click"/>
+                            <MenuFlyoutItem Text="远摄镜头" Tag="定焦镜头" Click="MenuFlyoutItem_Click"/>
+                            <MenuFlyoutItem Text="特殊镜头" Tag="定焦镜头" Click="MenuFlyoutItem_Click"/>
+                        </MenuFlyoutSubItem>
+                        <MenuFlyoutSubItem Text="变焦镜头">
+                            <MenuFlyoutItem Text="广角镜头" Tag="变焦镜头" Click="MenuFlyoutItem_Click"/>
+                            <MenuFlyoutItem Text="标准镜头" Tag="变焦镜头" Click="MenuFlyoutItem_Click"/>
+                            <MenuFlyoutItem Text="远摄镜头" Tag="变焦镜头" Click="MenuFlyoutItem_Click"/>
+                        </MenuFlyoutSubItem>
+                        <MenuFlyoutSeparator/>
+                        <MenuFlyoutItem Text="取消选择" Tag="lens" Click="Reset_Click"/>
+                    </MenuFlyout>
+                </AppBarButton.Flyout>
+            </AppBarButton>
+            <AppBarButton Icon="Tag" Label="主题">
+                <AppBarButton.Flyout>
+                    <MenuFlyout x:Name="ThemeSelector">
+                        <ToggleMenuFlyoutItem Text="风光" Click="ThemeSelector_Click"/>
+                        <ToggleMenuFlyoutItem Text="纪实" Click="ThemeSelector_Click"/>
+                        <ToggleMenuFlyoutItem Text="人像" Click="ThemeSelector_Click"/>
+                        <ToggleMenuFlyoutItem Text="建筑" Click="ThemeSelector_Click"/>
+                        <ToggleMenuFlyoutItem Text="微距" Click="ThemeSelector_Click"/>
+                        <ToggleMenuFlyoutItem Text="动物(自然)" Click="ThemeSelector_Click"/>
+                        <ToggleMenuFlyoutItem Text="静物(美食)" Click="ThemeSelector_Click"/>
+                        <ToggleMenuFlyoutItem Text="弱光(夜景)" Click="ThemeSelector_Click"/>
+                        <ToggleMenuFlyoutItem Text="体育(交通工具)" Click="ThemeSelector_Click"/>
+                        <MenuFlyoutSeparator/>
+                        <MenuFlyoutItem Text="取消选择" Click="ThemeSelectorReset_Click"/>
+                    </MenuFlyout>
+                </AppBarButton.Flyout>
+            </AppBarButton>
+            <AppBarButton Icon="Sort" Label="排序">
+                <AppBarButton.Flyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem Text="按时间" Tag="time" Click="Sort_Click"/>
+                        <MenuFlyoutItem Text="按浏览" Tag="view" Click="Sort_Click"/>
+                        <MenuFlyoutItem Text="按点赞" Tag="like" Click="Sort_Click"/>
+                    </MenuFlyout>
+                </AppBarButton.Flyout>
+            </AppBarButton>
+        </CommandBar>
+        <Frame x:Name="GalleryFrame" Background="Transparent" Margin="0,0,0,48"/>
+        <SplitView x:Name="filterpane" IsPaneOpen="False" DisplayMode="Overlay" Margin="0,0,0,48">
+            <SplitView.Pane>
+                <Grid>
+                    <ListView x:Name="filterlistview">
+                        <ListView.Background>
+                            <AcrylicBrush TintColor="WhiteSmoke"
+                                          Opacity="0.5"/>
+                        </ListView.Background >
+                    </ListView >
+                </Grid>
+            </SplitView.Pane>
+        </SplitView>
+    </Grid>
+</Page>

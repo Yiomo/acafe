@@ -1,0 +1,142 @@
+﻿<Page
+    x:Class="αcafe.Pages.Setting_Page"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:αcafe.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="Transparent"  >
+        <Pivot >
+            <PivotItem >
+                <PivotItem.Header>
+                    <TextBlock Text="设置" FontSize="32" Foreground="WhiteSmoke" />
+                </PivotItem.Header >
+                <Grid >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="4.9*"/>
+                        <ColumnDefinition Width="0.2*"/>
+                        <ColumnDefinition Width="4.9*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Orientation="Vertical" Margin="10,16,0,0">
+                        <TextBlock Text="基本设置" FontWeight="Bold" FontSize="24" Foreground="WhiteSmoke"/>
+                        <TextBlock Text="· 壁纸" FontSize="20" Foreground="WhiteSmoke" Margin="10,10,10,0"/>
+                        <StackPanel Orientation="Vertical" Margin="20,0,0,0" BorderThickness="0,0,0,1" BorderBrush="WhiteSmoke">
+                            <ToggleSwitch x:Name="bingswitch" OnContent="使用自定义图片" OffContent="使用默认图片源" 
+                                          Foreground="WhiteSmoke" IsOn="False"  FlowDirection="RightToLeft" HorizontalAlignment="Left"
+                                          Toggled="bingswitch_Toggled"/>
+                            <TextBlock Text="自定义图片路径" Foreground="WhiteSmoke"/>
+                            <TextBlock x:Name="picpathtb" Height="24" Visibility="Collapsed" Margin="3,6,0,0"/>
+                            <Button x:Name="Openpic" Height="32" Width="80" Margin="0,10,0,20" 
+                                    Content="打开图片" Foreground="WhiteSmoke" IsEnabled="{Binding ElementName=bingswitch,Path=IsOn,Mode=OneWay}"
+                                    Click="Openpic_Click"/>
+                        </StackPanel >
+                        <TextBlock Text="· 下载" FontSize="20" Foreground="WhiteSmoke" Margin="10,40,0,0"/>
+                        <StackPanel Orientation="Vertical" Margin="20,0,0,0" BorderThickness="0,0,0,1" BorderBrush="WhiteSmoke">
+                            <TextBlock Text="图片质量" Foreground="WhiteSmoke" Margin="0,10,0,0"/>
+                            <Button x:Name="selBtn" Height="32" Width="80" Margin="0,10,0,0" Content="原图" Foreground="WhiteSmoke">
+                                <Button.Flyout>
+                                    <MenuFlyout>
+                                        <MenuFlyoutItem x:Name="normalBtn" Text="普通" Click="normalBtn_Click"/>
+                                        <MenuFlyoutItem x:Name="rawBtn"  Text="原图" Click="rawBtn_Click"/>
+                                    </MenuFlyout >
+                                </Button.Flyout >
+                            </Button >
+                            <TextBlock Text="下载路径" Foreground="WhiteSmoke" Margin="0,10,0,0"/>
+                            <TextBlock x:Name="downloadpathTb" Foreground="WhiteSmoke" Height="26" Visibility="Visible" Margin="4,10,0,0"/>
+                            <Button x:Name="Opendownload" Height="32" Width="80" Margin="0,6,0,40" 
+                                    Content="指定位置" Foreground="WhiteSmoke"
+                                    Click="Opendownload_Click"/>
+                        </StackPanel >
+                    </StackPanel >
+                    <Border Grid.Column="1" Height="999" Width="1" Background="WhiteSmoke"  HorizontalAlignment="Left"/>
+                    <StackPanel Grid.Column="2" Orientation="Vertical" Margin="5">
+                        <TextBlock Text="高级设置" FontWeight="Bold" FontSize="24" Foreground="WhiteSmoke"/>
+                    </StackPanel >
+                </Grid >
+            </PivotItem >
+            <PivotItem>
+                <PivotItem.Header>
+                    <TextBlock Text="工具" FontSize="32" Foreground="WhiteSmoke"/>
+                </PivotItem.Header >
+                <StackPanel  Orientation="Vertical" Margin=" 10">
+                    <TextBlock Text="· 快门次数检测工具" FontSize=" 22" Foreground="WhiteSmoke" FontWeight="Bold"/>
+                    <TextBlock Text="    目前支持 SONY Alpha A-卡口相机 : A230 A290 A33 A330 A35 A37 A390 A450 A500 A55 A550 A57 A58 A65 A77 A77M2 A850 A900 A99"
+                               FontSize="14" Foreground="WhiteSmoke" Margin=" 0,10,0,0"/>
+                    <TextBlock Text="    目前支持 SONY Alpha E-卡口相机 : NEX-3 NEX-C3 NEX-F3 NEX-3N NEX-5 NEX-5N NEX-5R NEX-5T NEX-6 NEX 7 A3000 A3500 A5000 A5100 A6000 A7 A7r A7s"
+                               FontSize="14" Foreground="WhiteSmoke" />
+                    <TextBlock Text="    不支持 : SONY Alpha A100 A200 A300 A350 and A700"
+                               FontSize="14" Foreground="WhiteSmoke"/>
+                    <StackPanel Orientation="Horizontal" Margin=" 16,10,0,0">
+                        <Button x:Name="upbtn" Click="upbtn_Click">
+                            <Grid>
+                                <TextBlock x:Name="tbk" Text="点击选择图片" Foreground="WhiteSmoke" />
+                                <StackPanel x:Name="skp" Orientation="Horizontal" Visibility="Collapsed">
+                                    <ProgressRing IsActive="True" Foreground="WhiteSmoke"/>
+                                    <TextBlock Text="上传中" Foreground="WhiteSmoke"/>
+                                </StackPanel >
+                            </Grid >
+                        </Button >
+                        <TextBlock Text="   文件应应以*.ARW 或 *.JPG 结尾. 只有相机直出的ORIGINAL RAW/cRAW/JPEG 才可以正常识别快门次数"
+                                   Foreground="DarkRed" VerticalAlignment="Center" />
+                    </StackPanel >
+                    <TextBlock x:Name="resulttbk" Foreground="WhiteSmoke" Margin=" 10" VerticalAlignment="Center"/>
+                </StackPanel >
+            </PivotItem >
+            <PivotItem >
+                <PivotItem.Header>
+                    <TextBlock Text="关于" FontSize="32" Foreground="WhiteSmoke"/>
+                </PivotItem.Header >
+                <ScrollViewer VerticalScrollBarVisibility="Disabled">
+                    <StackPanel Orientation="Vertical">
+                        <controls:DropShadowPanel
+                                               Width="160" Height="160"
+                                               Margin="0,20,0,0" OffsetX="3" OffsetY="5"
+                                               ShadowOpacity="0.4" BlurRadius="5">
+                            <controls:RoundImageEx Source="ms-appx:///Assets/timdsdsdg.jpg"
+                                               Width="160" Height="160"
+                                               Stretch="UniformToFill"
+                                               CornerRadius="999"/>
+                        </controls:DropShadowPanel >
+                        <StackPanel Orientation="Vertical" Width="220">
+                            <StackPanel Orientation="Horizontal" 
+                                    Height="28" Width="180" Margin="0,20,0,10">
+                                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE734;"/>
+                                <TextBlock Text="    于应用商店评价" VerticalAlignment="Center"/>
+                            </StackPanel >
+                            <StackPanel Orientation="Horizontal" Tapped="FeedBack_Tapped" 
+                                    Height="28" Width="180" Margin="0,5,0,10">
+                                <SymbolIcon Symbol="Account"/>
+                                <TextBlock Text="   Snowysong@Live.com" VerticalAlignment="Center"/>
+                            </StackPanel >
+                            <StackPanel Orientation="Horizontal" 
+                                    Height="28" Width="180" Margin="-10,5,0,10">
+                                <Image Source="ms-appx:///Assets/WBLOGO.png"/>
+                                <TextBlock Text="  栗子木凤凰芯" VerticalAlignment="Center"/>
+                            </StackPanel >
+                            <StackPanel Orientation="Horizontal" 
+                                    Height="28" Width="180" Margin="-10,5,0,10">
+                                <Image Source="ms-appx:///Assets/mylogo.png"/>
+                                <HyperlinkButton Content="    Chestnut" VerticalAlignment="Center"
+                                                 NavigateUri="www.chestnut-phoenix.xyz" Foreground="WhiteSmoke"/>
+                            </StackPanel >
+                            <StackPanel Orientation="Horizontal" 
+                                    Height="28" Width="180" Margin="-10,5,0,10">
+                                <Image Source="ms-appx:///Assets/gitlogo.png"/>
+                                <HyperlinkButton Content="    Github" VerticalAlignment="Center"
+                                                 NavigateUri="https://github.com/Yiomo" Foreground="WhiteSmoke"/>
+                            </StackPanel >
+                            <StackPanel Orientation="Horizontal" 
+                                    Height="28" Width="180" Margin="0,5,0,0">
+                                <SymbolIcon Symbol="Like"/>
+                                <TextBlock Text="    捐赠开发者" VerticalAlignment="Center"/>
+                            </StackPanel >
+                        </StackPanel >
+                    </StackPanel >
+                </ScrollViewer >
+            </PivotItem >
+        </Pivot >
+    </Grid>
+</Page>

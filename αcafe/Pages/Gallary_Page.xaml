@@ -1,0 +1,61 @@
+﻿<Page
+    x:Class="αcafe.Pages.Gallary_Page"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:αcafe.Pages"
+    xmlns:controls ="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <DataTemplate x:Key="AdaptiveTemplate">
+            <controls:DropShadowPanel BlurRadius="8"
+                                    ShadowOpacity="0.8"
+                                    Color="Black"
+                                    OffsetX="5" OffsetY="10"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center"
+                                    Margin="15">
+                <controls:ImageEx Stretch="UniformToFill"                                 
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Source="{Binding thumbImage}"
+                                    Tag="{Binding fileID}"
+                                    Tapped="ImageEx_Tapped"
+                                    PointerEntered="ImageEx_PointerEntered"
+                                    PointerExited="ImageEx_PointerExited"
+                                    PointerCaptureLost="ImageEx_PointerCaptureLost"/>
+            </controls:DropShadowPanel>
+        </DataTemplate>
+    </Page.Resources>
+
+    <Grid x:Name="grid" Background="Transparent">
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel Orientation="Vertical">
+                <controls:AdaptiveGridView Name="AdaptiveGridViewControl" 
+                                           OneRowModeEnabled="False"
+                                           ItemHeight="200"
+                                           DesiredWidth="300"
+                                           SelectionMode="None" 
+                                           IsItemClickEnabled="False" 
+                                           ItemTemplate="{StaticResource AdaptiveTemplate}"
+                                           animations:ReorderGridAnimation.Duration="400">
+                </controls:AdaptiveGridView >
+                <Button x:Name="LoadmoreBtn" Visibility="Collapsed" Background="Transparent" HorizontalAlignment="Stretch" Click="LoadMore_Click" Content="点击加载更多~" BorderThickness="0" Foreground="#FF979797"/>
+                <TextBlock x:Name="loadcountBK" Visibility="Collapsed"/>
+            </StackPanel >
+        </ScrollViewer >
+        <controls:Loading x:Name="LoadingControl" HorizontalContentAlignment="Center" 
+                          VerticalContentAlignment="Center"
+                          Background="Black" Opacity="0.7">
+            <ContentControl x:Name="LoadingContentControl" Loading="LoadingContentControl_Loading">
+                <StackPanel Orientation="Horizontal" Padding="12">
+                    <ProgressRing IsActive="True" Margin="0,0,12,0" Foreground="AliceBlue" />
+                    <TextBlock x:Name="TipsTb" Text="Loading.Please wait." VerticalAlignment="Center" Foreground="White"/>
+                </StackPanel>
+            </ContentControl >
+        </controls:Loading>
+    </Grid>
+</Page>

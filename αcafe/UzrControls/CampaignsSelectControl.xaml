@@ -1,0 +1,58 @@
+﻿<ContentDialog
+    x:Class="αcafe.UzrControls.CampaignsSelectControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:αcafe.Functions"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    PrimaryButtonText="Button1"
+    SecondaryButtonText="Button2"
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
+    SecondaryButtonClick="ContentDialog_SecondaryButtonClick"
+    Title="主题选择"
+    FullSizeDesired="True">
+    <ContentDialog.Resources>
+        <local:UserConverter x:Key="conv"/>
+    </ContentDialog.Resources >
+    <Grid Width=" 400">
+        <Canvas>
+            <Pivot>
+                <PivotItem Header="照片">
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal">
+                                <controls:ImageEx x:Name="DImage" Height="300" Width=" 270" Stretch="Uniform"
+                                  Source="ms-appx:///Assets/12133022_121657868561_2.jpg"/>
+                                <StackPanel Orientation="Vertical" VerticalAlignment="Center" Margin="10">
+                                    <TextBlock x:Name="DTitle" Text="比赛名称" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5"/>
+                                    <TextBlock x:Name="DDes" Text="比赛描述" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5"/>
+                                    <StackPanel Orientation="Horizontal" BorderThickness="0,0,0,1" BorderBrush="Gray">
+                                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEDB5;"/>
+                                        <TextBlock x:Name="DStart" Text="起始日期" Margin="10"/>
+                                    </StackPanel >
+                                    <StackPanel Orientation="Horizontal" BorderThickness="0,0,0,1" BorderBrush="Gray" >
+                                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE916;"/>
+                                        <TextBlock Text="结束日期" x:Name="DEnd" Margin="10"/>
+                                    </StackPanel >
+                                </StackPanel >
+                            </StackPanel >
+                        </StackPanel >
+                        <controls:AdaptiveGridView x:Name="CampaignGridview"
+                                                   ItemClick="CampaignGridview_ItemClick">
+                            <GridView.ItemTemplate>
+                                <DataTemplate >
+                                    <controls:ImageEx Height=" 150" Width=" 135" Stretch="Uniform" 
+                                                              Source="{Binding icon_path,Converter={StaticResource conv}}"/>
+                                </DataTemplate >
+                                </GridView.ItemTemplate >
+                        </controls:AdaptiveGridView >
+                    </StackPanel >
+                </PivotItem >
+                <PivotItem Header="视频">
+                </PivotItem >
+            </Pivot >
+        </Canvas >
+    </Grid>
+</ContentDialog>

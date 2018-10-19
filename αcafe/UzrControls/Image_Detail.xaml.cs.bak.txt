@@ -1,0 +1,376 @@
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Input;
+using αcafe.Info;
+using αcafe.Functions;
+using Windows.UI.ViewManagement;
+using Windows.Storage;
+using System;
+using Windows.System.UserProfile;
+using Windows.ApplicationModel;
+
+//https://go.microsoft.com/fwlink/?LinkId=234236 上介绍了“用户控件”项模板
+
+namespace αcafe.UzrControls
+{
+    public sealed partial class Image_Detail : UserControl
+    {
+        private List<RawInfo> _popupContent;
+        private Popup _popup = null;
+
+        public Image_Detail()
+        {
+            this.InitializeComponent();
+            _popup = new Popup();
+            ApplicationView.GetForCurrentView().VisibleBoundsChanged += (s, e) =>
+            {
+                MeasurePopupSize();
+            };
+            MeasurePopupSize();
+            _popup.Child = this;
+
+            this.Loaded += PopupNoticeLoaded;
+
+        }
+
+        public Image_Detail(List<RawInfo> rawinfo) : this()
+        {
+            _popupContent = rawinfo;
+        }
+
+        public void ShowAPopup()
+        {
+            _popup.IsOpen = true;
+        }
+
+        public void PopupNoticeLoaded(object sender, RoutedEventArgs e)
+        {
+            PopupContent.Source = _popupContent[0].filePath;
+            PopupDetail_Title_GridView.ItemsSource = _popupContent;
+            PopupDetail_GridView.ItemsSource = _popupContent;
+            PopupIn.Begin();
+        }
+
+        public async void PopupContainer_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            if (PopupDetail.IsOpen == false)
+            {
+                this.PopupDetailIn.Begin();
+                this.PopupDetaiTitlelIn.Begin();
+                PopupDetail.IsOpen = true;
+                PopupDetail_Title.IsOpen = true;
+            }
+            else
+            {
+                this.PopupDetailOut.Begin();
+                this.PopupDetailTitleOut.Begin();
+                await Task.Delay(500);
+                PopupDetail.IsOpen = false;
+                PopupDetail_Title.IsOpen = false;
+            }
+        }
+
+        private async void BackBtn_Click(object sender, RoutedEventArgs e)
+        {
+            this.PopupOut.Begin();
+            this.PopupDetailOut.Begin();
+            this.PopupDetailTitleOut.Begin();
+            await Task.Delay(500);
+            _popup.IsOpen = false;
+
+        }
+
+        private async void DownLoad_Click(object sender, RoutedEventArgs e)
+        {
+            DownloadProperties DP = await GetDownloadProperties();
+            if (DP == null)
+            {
+                DownloadSymbol.Visibility = Visibility.Visible;
+                DownloadStatus.Text = "文件已存在";
+                await Task.Delay(800);
+                DownloadSymbol.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                DownloadSymbol.Visibility = Visibility.Visible;
+                string uri = DP.uri;
+                string name = DP.name;
+                DownloadStatus.Text = "下载中";
+                await Task.Run(async () => { await OperateFile.SaveImageAsync(name, uri); });
+                DownloadStatus.Text = "下载完成";
+                await Task.Delay(800);
+                DownloadSymbol.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void Like_Click(object sender, RoutedEventArgs e)
+        {
+            string fileid = _popupContent[0].fileId;
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            HttpClient request = new HttpClient(httpClientHandler);
+            HttpResponseMessage response = request.GetAsync("http://www.sonystyle.com.cn/mysony/campaign/api/file.do?methodName=updateLikeDislike&option=1&fileId=" + fileid).Result;
+            string[] result = response.Content.ReadAsStringAsync().Result.Split(':');
+            string likeno = result.Last().Replace('}', ' ');
+            ((AppBarButton)sender).Label = likeno;
+        }
+
+        private void commandbar_LostFocus(object sender, RoutedEventArgs e)
+        {
+            ((CommandBar)sender).IsOpen = false;
+        }
+
+        private void Message_Click(object sender, RoutedEventArgs e)
+        {
+            Detailarea.IsPaneOpen = !Detailarea.IsPaneOpen;
+            if (_popupContent[0].Model != "")
+                ModelTb.Text = _popupContent[0].Model;
+            if (_popupContent[0].Lens != "")
+                LensTb.Text = _popupContent[0].Lens;
+            if (_popupContent[0].Exposure_Time != "")
+                Exposure_TimeTb.Text = _popupContent[0].Exposure_Time;
+            if (_popupContent[0].FNumber != "")
+                FNumberTb.Text = _popupContent[0].FNumber;
+            if (_popupContent[0].ISO != "")
+                ISOTb.Text = _popupContent[0].ISO;
+            if (_popupContent[0].Theme != "")
+                ThemeTb.Text = _popupContent[0].Theme;
+
+            if (_popupContent[0].allComs.Count == 0)
+            {
+                NoComs.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                ComsListview.ItemsSource = _popupContent[0].allComs;
+            }
+
+            bool status = LoginStatus.LoginInfo().IsLogin;
+            if (status == false)
+            {
+                SendBtn.IsEnabled = false;
+                SendTb.IsEnabled = false;
+                SendTb.PlaceholderText = "请在登录后评论";
+            }
+        }
+
+        private async void Send_Click(object sender, RoutedEventArgs e)
+        {
+            HttpClient request = new HttpClient(Sign.HttpClientHandler);
+            HttpResponseMessage response = request.GetAsync("http://www.sonystyle.com.cn/mysony/campaign/api/fileComment.do?methodName=insertComment&programId=1&fileId=" + _popupContent[0].fileId + "&comment=" + SendTb.Text).Result;
+            string result = await response.Content.ReadAsStringAsync();
+            if (result.Contains("Success"))
+            {
+                SendTb.Text = "";
+                SendTb.PlaceholderText = "发布成功，等待审核。";
+            }
+        }
+
+        private void MeasurePopupSize()
+        {
+            this.Width = ApplicationView.GetForCurrentView().VisibleBounds.Width;
+            this.Height = ApplicationView.GetForCurrentView().VisibleBounds.Height;
+        }
+
+        private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            PopupDetail.Width = e.NewSize.Width;
+            PopupDetail_Title.Width = e.NewSize.Width;
+            PopupContainer.Width = e.NewSize.Width;
+            PopupContainer.Height = e.NewSize.Height;
+        }
+
+        private void SetToStartScreenBtn_ClickAsync(object sender, RoutedEventArgs e)
+        {
+            SetToScreen("start");
+        }
+
+        private void SetToLockScreenBtn_Click(object sender, RoutedEventArgs e)
+        {
+            SetToScreen("lock");
+        }
+
+        private async Task<DownloadProperties> GetDownloadProperties()
+        {
+            string uri = "";
+            string[] temp;
+            string name = "";
+            StorageFolder folder; 
+            StorageFile file;
+
+            if (Setting.GetSettingValue("DownloadPath").Contains("图片"))
+                folder = await KnownFolders.PicturesLibrary.CreateFolderAsync("Acafe", CreationCollisionOption.OpenIfExists);
+            else
+                folder = await StorageFolder.GetFolderFromPathAsync(Setting.GetSettingValue("DownloadPath"));
+
+            if (Setting.GetSettingValue("DownloadQuality").Contains("Raw") == true)
+            {
+                uri = _popupContent[0].fileUploadPath;
+                temp = uri.Split('.');
+                name = _popupContent[0].title + "R" + "." + temp[temp.Count() - 1];
+                try
+                {
+                    file = await folder.GetFileAsync(name);
+                    return null;
+                }
+                catch
+                {
+                    DownloadProperties downloadProperties = new DownloadProperties()
+                    {
+                        name = name,
+                        uri = uri,
+                    };
+                    return downloadProperties;
+                }
+            }
+            else
+            {
+                uri = _popupContent[0].filePath;
+                temp = uri.Split('.');
+                name = _popupContent[0].title + "N" + "." + temp[temp.Count() - 1];
+                try
+                {
+                    file = await folder.GetFileAsync(name);
+                    return null;
+                }
+                catch
+                {
+                    DownloadProperties downloadProperties = new DownloadProperties()
+                    {
+                        name = name,
+                        uri = uri,
+                    };
+                    return downloadProperties;
+                }
+            }
+        }
+
+        private async Task<bool> IsRawExisted()
+        {
+            string uri = "";
+            string[] temp;
+            string name = "";
+            StorageFolder folder;
+            StorageFile file;
+
+            if (Setting.GetSettingValue("DownloadPath").Contains("图片"))
+                folder = await KnownFolders.PicturesLibrary.CreateFolderAsync("Acafe", CreationCollisionOption.OpenIfExists);
+            else
+                folder = await StorageFolder.GetFolderFromPathAsync(Setting.GetSettingValue("DownloadPath")); ;
+
+            uri = _popupContent[0].fileUploadPath;
+            temp = uri.Split('.');
+            name = _popupContent[0].title + "R" + "." + temp[temp.Count() - 1];
+            try
+            {
+                file = await folder.GetFileAsync(name);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private async void SetToScreen(string screen)
+        {
+            if (!UserProfilePersonalizationSettings.IsSupported())
+            {
+                DownloadSymbol.Visibility = Visibility.Visible;
+                DownloadStatus.Text = "不支持哦";
+                await Task.Delay(800);
+                DownloadSymbol.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                string uri = _popupContent[0].fileUploadPath;
+                string[] temp = uri.Split('.');
+                StorageFolder folder;
+                if (Setting.GetSettingValue("DownloadPath").Contains("图片"))
+                    folder = await KnownFolders.PicturesLibrary.CreateFolderAsync("Acafe", CreationCollisionOption.OpenIfExists);
+                else 
+                    folder = await StorageFolder.GetFolderFromPathAsync(Setting.GetSettingValue("DownloadPath")); ;
+                StorageFile file;
+
+                if (await IsRawExisted() == true)
+                {
+                    DownloadSymbol.Visibility = Visibility.Visible;
+                    DownloadStatus.Text = "设置中";
+
+                    StorageFolder base_folder = await Package.Current.InstalledLocation.GetFolderAsync("Assets");
+                    file = await folder.GetFileAsync(_popupContent[0].title + "R" + "." + temp[temp.Count() - 1]);
+                    await file.CopyAsync(base_folder, _popupContent[0].title + "R" + "." + temp[temp.Count() - 1], NameCollisionOption.ReplaceExisting);
+                    StorageFile copy_file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/" + file.Name));
+
+                    UserProfilePersonalizationSettings setting = UserProfilePersonalizationSettings.Current;
+                    bool a ;
+                    if (screen.Contains("start"))
+                        a = await setting.TrySetWallpaperImageAsync(copy_file);
+                    else
+                        a = await setting.TrySetLockScreenImageAsync(copy_file);
+                    switch (a)
+                        {
+                            case true:
+                                {
+                                    DownloadStatus.Text = "设置成功";
+                                    await Task.Delay(800);
+                                    DownloadSymbol.Visibility = Visibility.Collapsed;
+                                    break;
+                                }
+                            case false:
+                                {
+                                    DownloadStatus.Text = "设置失败";
+                                    await Task.Delay(800);
+                                    DownloadSymbol.Visibility = Visibility.Collapsed;
+                                    break;
+                                }
+                        }
+                }
+                else
+                {
+                    string name = _popupContent[0].title + "R" + "." + temp[temp.Count() - 1];
+                    DownloadSymbol.Visibility = Visibility.Visible;
+                    DownloadStatus.Text = "下载中";
+                    await Task.Run(async () => { await OperateFile.SaveImageAsync(name, uri); });
+                    file = await folder.GetFileAsync(_popupContent[0].title + "R" + "." + temp[temp.Count() - 1]);
+                    StorageFolder base_folder = await Package.Current.InstalledLocation.GetFolderAsync("Assets");
+                    await file.CopyAsync(base_folder, _popupContent[0].title + "R" + "." + temp[temp.Count() - 1], NameCollisionOption.ReplaceExisting);
+                    StorageFile copy_file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/" + file.Name));
+
+                    UserProfilePersonalizationSettings setting = UserProfilePersonalizationSettings.Current;
+                    bool a ;
+                    if (screen.Contains("start"))
+                        a = await setting.TrySetWallpaperImageAsync(copy_file);
+                    else
+                        a = await setting.TrySetLockScreenImageAsync(copy_file);
+
+                    switch (a)
+                    {
+                        case true:
+                            {
+                                DownloadStatus.Text = "设置成功";
+                                DownloadSymbol.Visibility = Visibility.Collapsed;
+                                break;
+                            }
+                        case false:
+                            {
+                                DownloadStatus.Text = "设置失败";
+                                DownloadSymbol.Visibility = Visibility.Collapsed;
+                                break;
+                            }
+                    }
+                }
+            }
+        }
+
+        public class DownloadProperties
+        {
+            public string name { get; set; }
+            public string uri { get; set; }
+        }
+    }
+}
